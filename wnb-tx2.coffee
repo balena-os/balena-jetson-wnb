@@ -1,11 +1,11 @@
 deviceTypesCommon = require '@resin.io/device-types/common'
 { networkOptions, commonImg, instructions } = deviceTypesCommon
 
-BOARD_POWEROFF = 'Remove and re-connect power to the board.'
-BOARD_POWERON = 'Press and hold for 1 second the POWER push button.'
+BOARD_POWER = 'Remove and then re-connect power to the board.'
+BOARD_SHUTDOWN = "After flashing is completed the board will enter the Post Provisioning state in the dashboard."
 
 postProvisioningInstructions = [
-	instructions.BOARD_SHUTDOWN
+	BOARD_SHUTDOWN
 	instructions.REMOVE_INSTALL_MEDIA
 	instructions.BOARD_REPOWER
 ]
@@ -25,8 +25,7 @@ module.exports =
 		instructions.ETCHER_SD
 		instructions.EJECT_SD
 		instructions.FLASHER_WARNING
-		BOARD_POWEROFF
-		BOARD_POWERON
+		BOARD_POWER
 	].concat(postProvisioningInstructions)
 
 	gettingStartedLink:
