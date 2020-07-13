@@ -13,3 +13,6 @@
 [submodule "layers/meta-tegra"]
 	path = layers/meta-tegra
 	url = https://github.com/madisongh/meta-tegra.git
+[submodule "layers/meta-openembedded"]
+	path = layers/meta-openembedded
+	url = https://github.com/openembedded/meta-openembedded.git
