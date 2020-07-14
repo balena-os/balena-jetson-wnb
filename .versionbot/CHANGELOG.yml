@@ -1,1 +1,26 @@
-[]
+- commits:
+    - subject: Do not use wireless-regdb-static until we move to kernel >= 4.15
+      hash: 232ee54a38d68ded980b9299eae01fe29df7412d
+      body: |
+        The machines in this repo are still on kernel < 4.15 so let's not use
+        wireless-regdb-static just yet. When they will use a kernel >= 4.15
+        let's switch then from crda to wireless-regdb-static.
+      footer:
+        Changelog-entry: Do not use wireless-regdb-static until we move to kernel >= 4.15
+        changelog-entry: Do not use wireless-regdb-static until we move to kernel >= 4.15
+        Signed-off-by: Alexandru Costache <alexandru@balena.io>
+        signed-off-by: Alexandru Costache <alexandru@balena.io>
+      author: Alexandru Costache
+      nested: []
+    - subject: Added balena-yocto-scripts at v1.8.0
+      hash: 8dec05a20c8295fe2cd4cf57b9e34f5ae30fc5db
+      body: ''
+      footer:
+        Changelog-entry: Added balena-yocto-scripts at v1.8.0
+        changelog-entry: Added balena-yocto-scripts at v1.8.0
+        Signed-off-by: Alexandru Costache <alexandru@balena.io>
+        signed-off-by: Alexandru Costache <alexandru@balena.io>
+      author: Alexandru Costache
+      nested: []
+  version: 2.52.7+rev1
+  date: 2020-07-14T11:54:29.934Z
