@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'conf/layer: Add trailing space'
+      hash: 6a35224bed5a3205e1aa570902c3f37d1c973a64
+      body: ''
+      footer:
+        Changelog-entry: 'conf/layer: Add trailing space'
+        changelog-entry: 'conf/layer: Add trailing space'
+        Signed-off-by: Alexandru Costache <alexandru@balena.io>
+        signed-off-by: Alexandru Costache <alexandru@balena.io>
+      author: Alexandru Costache
+      nested: []
+  version: 2.52.7+rev2
+  date: 2020-07-15T09:17:07.063Z
+- commits:
     - subject: Do not use wireless-regdb-static until we move to kernel >= 4.15
       hash: 232ee54a38d68ded980b9299eae01fe29df7412d
       body: |
