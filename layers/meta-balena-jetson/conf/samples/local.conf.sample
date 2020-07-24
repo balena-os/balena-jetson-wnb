@@ -1,5 +1,5 @@
 # Supported machines
-#MACHINE ?= "wnb-tx2"
+#MACHINE ?= "apollo-tx2"
 
 # We use the overlayfs docker storage driver on the Nvidia Jetson Nano
 BALENA_STORAGE = "overlay2"
