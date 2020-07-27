@@ -12,8 +12,8 @@ postProvisioningInstructions = [
 
 module.exports =
 	version: 1
-	slug: 'wnb-tx2'
-	name: 'WNB TX2'
+	slug: 'apollo-tx2'
+	name: 'Apollo TX2'
 	arch: 'aarch64'
 	state: 'new'
 	private: true
@@ -36,11 +36,11 @@ module.exports =
 	supportsBlink: false
 
 	yocto:
-		machine: 'wnb-tx2'
+		machine: 'apollo-tx2'
 		image: 'resin-image-flasher'
 		fstype: 'resinos-img'
 		version: 'yocto-warrior'
-		deployArtifact: 'resin-image-flasher-wnb-tx2.resinos-img'
+		deployArtifact: 'resin-image-flasher-apollo-tx2.resinos-img'
 		compressed: true
 
 	options: [ networkOptions.group ]

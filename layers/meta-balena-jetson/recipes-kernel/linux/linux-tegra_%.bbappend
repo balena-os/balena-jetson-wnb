@@ -145,6 +145,6 @@ do_deploy_append(){
 
 FILES_${KERNEL_PACKAGE_NAME}-image_append = "/boot/extlinux/extlinux.conf /boot/extlinux/extlinux.conf_flasher"
 
-do_deploy_append_wnb-tx2() {
+do_deploy_append_apollo-tx2() {
     cp ${WORKDIR}/tegra186-quill-p3310-1000-c03-00-base.dtb "${DEPLOYDIR}"
 }
