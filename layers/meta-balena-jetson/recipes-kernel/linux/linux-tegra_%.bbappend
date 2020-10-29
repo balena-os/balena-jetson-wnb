@@ -20,7 +20,7 @@ SRC_URI_append = " \
     file://realsense_format_desc_4.4.patch \
     file://0002-qmi_wwan-Update-from-4.14-kernel.patch \
     file://0001-mttcan_ivc-Fix-build-failure-with-kernel-4.9.patch \
-    file://tegra186-quill-p3310-1000-c03-00-base.dtb \
+    file://tegra186-quill-p3310-1000-c03-00-base_apollo.dtb \
 "
 
 TEGRA_INITRAMFS_INITRD = "0"
@@ -146,5 +146,5 @@ do_deploy_append(){
 FILES_${KERNEL_PACKAGE_NAME}-image_append = "/boot/extlinux/extlinux.conf /boot/extlinux/extlinux.conf_flasher"
 
 do_deploy_append_apollo-tx2() {
-    cp ${WORKDIR}/tegra186-quill-p3310-1000-c03-00-base.dtb "${DEPLOYDIR}"
+    cp ${WORKDIR}/tegra186-quill-p3310-1000-c03-00-base_apollo.dtb "${DEPLOYDIR}"
 }
