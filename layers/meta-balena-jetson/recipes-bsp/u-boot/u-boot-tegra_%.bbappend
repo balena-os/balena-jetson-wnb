@@ -11,7 +11,7 @@ SRCREV = "565a18c42c8389916639f8225163942b559bb5f2"
 RESIN_BOOT_PART_jetson-tx2 = "0x18"
 RESIN_DEFAULT_ROOT_PART_jetson-tx2 = "0x19"
 
-TEGRA_BOARD_FDT_FILE_j120-apollo-tx2="tegra186-quill-p3310-1000-c03-00-base_apollo.dtb"
+TEGRA_BOARD_FDT_FILE_apollo-tx2="tegra186-quill-p3310-1000-c03-00-base_apollo.dtb"
 
 UBOOT_VARS_append = "\
     TEGRA_BOARD_FDT_FILE \
