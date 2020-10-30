@@ -21,6 +21,7 @@ SRC_URI_append = " \
     file://0002-qmi_wwan-Update-from-4.14-kernel.patch \
     file://0001-mttcan_ivc-Fix-build-failure-with-kernel-4.9.patch \
     file://tegra186-quill-p3310-1000-c03-00-base_apollo.dtb \
+    file://xhci-ring-Don-t-show-incorrect-WARN-message-about.patch \
 "
 
 TEGRA_INITRAMFS_INITRD = "0"
