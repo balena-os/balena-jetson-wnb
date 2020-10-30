@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'u-boot: Fix board - dtb name pair'
+      hash: 52c6675e51261e064098707531c7ac91c78ccaee
+      body: ''
+      footer:
+        Changelog-entry: 'u-boot: Fix board - dtb name pair'
+        changelog-entry: 'u-boot: Fix board - dtb name pair'
+        Signed-off-by: Alexandru Costache <alexandru@balena.io>
+        signed-off-by: Alexandru Costache <alexandru@balena.io>
+      author: Alexandru Costache
+      nested: []
+  version: 2.58.6+rev2
+  date: 2020-10-30T12:57:39.595Z
+- commits:
     - subject: 'u-boot: Enhance rollback, load Apollo TX2 dtb from rootfs'
       hash: 89c76e543bffc72c0cd39fdca09762611ae0d1b6
       body: |

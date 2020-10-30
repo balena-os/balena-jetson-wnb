@@ -1,6 +1,11 @@
 Change log
 -----------
 
+# v2.58.6+rev2
+## (2020-10-30)
+
+* u-boot: Fix board - dtb name pair [Alexandru Costache]
+
 # v2.58.6+rev1
 ## (2020-10-30)
 
