@@ -4,31 +4,29 @@ FILESEXTRAPATHS_append := ":${THISDIR}/${PN}"
 
 SCMVERSION="n"
 
-
 # Prevent delayed booting
 # and support using partition label to load rootfs
 # in the case of jetson-xavier and tx2 flasher
 SRC_URI_append = " \
     file://0001-revert-random-fix-crng_ready-test.patch \
     file://0001-Support-referencing-the-root-partition-label-from-GP.patch \
-    file://0001-Expose-spidev-to-the-userspace.patch \
+    file://xhci-ring-Don-t-show-incorrect-WARN-message-about.patch \
     file://0002-mttcan-ivc-enable.patch \
-    file://realsense_hid_linux-yocto_4.4.patch \
-    file://realsense_metadata_linux-yocto_4.4.patch \
     file://realsense_powerlinefrequency_control_fix_linux-yocto_4.4.patch \
-    file://realsense_camera_formats_linux-yocto_4.4.patch \
-    file://realsense_format_desc_4.4.patch \
     file://0002-qmi_wwan-Update-from-4.14-kernel.patch \
     file://0001-mttcan_ivc-Fix-build-failure-with-kernel-4.9.patch \
-    file://tegra186-quill-p3310-1000-c03-00-base_apollo.dtb \
-    file://xhci-ring-Don-t-show-incorrect-WARN-message-about.patch \
+    file://0001-linux-tegra-Apply-custom-DTS-changes-for-this-device.patch \
 "
 
 TEGRA_INITRAMFS_INITRD = "0"
 
-RESIN_CONFIGS_append = " debug_kmemleak "
+BALENA_CONFIGS_append = " tegra-wdt-t21x debug_kmemleak "
 
-RESIN_CONFIGS[debug_kmemleak] = " \
+BALENA_CONFIGS[tegra-wdt-t21x] = " \
+    CONFIG_TEGRA21X_WATCHDOG=m \
+"
+
+BALENA_CONFIGS[debug_kmemleak] = " \
     CONFIG_HAVE_DEBUG_KMEMLEAK=n \
     CONFIG_DEBUG_KMEMLEAK=n \
     CONFIG_HAVE_DEBUG_KMEMLEAK=n \
@@ -37,21 +35,23 @@ RESIN_CONFIGS[debug_kmemleak] = " \
 "
 
 # These should be for all boards that come from tx2
-RESIN_CONFIGS_append_jetson-tx2 = " tpg compat uvc egalax serial spi gamepad can"
-RESIN_CONFIGS[tpg] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " tpg eqos_disable_eee"
+BALENA_CONFIGS[tpg] = " \
                 CONFIG_VIDEO_TEGRA_VI_TPG=m \
 "
 
-RESIN_CONFIGS[compat] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " compat"
+BALENA_CONFIGS[compat] = " \
                 CONFIG_COMPAT=y \
 "
 
-RESIN_CONFIGS[uvc] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " uvc"
+BALENA_CONFIGS[uvc] = " \
                 CONFIG_USB_VIDEO_CLASS=m \
                 CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=y \
 "
 
-RESIN_CONFIGS_DEPS[uvc] = " \
+BALENA_CONFIGS_DEPS[uvc] = " \
                 CONFIG_MEDIA_CAMERA_SUPPORT=y \
                 CONFIG_VIDEO_V4L2_SUBDEV_API=y \
                 CONFIG_VIDEO_V4L2=m \
@@ -64,35 +64,38 @@ RESIN_CONFIGS_DEPS[uvc] = " \
                 CONFIG_SND_USB_AUDIO=m \
 "
 
-RESIN_CONFIGS[egalax] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " egalax"
+BALENA_CONFIGS[egalax] = " \
                 CONFIG_TOUCHSCREEN_EGALAX=m \
 "
 
-RESIN_CONFIGS[serial] = " \
-                CONFIG_USB_SERIAL=y \
+BALENA_CONFIGS_append_jetson-tx2 = " serial"
+BALENA_CONFIGS[serial] = " \
                 CONFIG_USB_SERIAL_GENERIC=y \
-                CONFIG_USB_SERIAL_CONSOLE=y \
 "
 
-RESIN_CONFIGS[spi] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " spi"
+BALENA_CONFIGS[spi] = " \
                 CONFIG_SPI=y \
                 CONFIG_SPI_MASTER=y \
                 CONFIG_SPI_SPIDEV=m \
 "
-RESIN_CONFIGS_DEPS[spi] = " \
+BALENA_CONFIGS_DEPS[spi] = " \
                 CONFIG_QSPI_TEGRA186=y \
                 CONFIG_SPI_TEGRA144=y \
 "
 
-RESIN_CONFIGS[gamepad] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " gamepad"
+BALENA_CONFIGS[gamepad] = " \
                 CONFIG_JOYSTICK_XPAD=m \
 "
-RESIN_CONFIGS_DEPS[gamepad] = " \
+BALENA_CONFIGS_DEPS[gamepad] = " \
                 CONFIG_INPUT_JOYSTICK=y \
                 CONFIG_USB_ARCH_HAS_HCD=y \
 "
 
-RESIN_CONFIGS[can] = " \
+BALENA_CONFIGS_append_jetson-tx2 = " can"
+BALENA_CONFIGS[can] = " \
                 CONFIG_CAN=m \
                 CONFIG_CAN_RAW=m \
                 CONFIG_CAN_DEV=m \
@@ -100,17 +103,42 @@ RESIN_CONFIGS[can] = " \
                 CONFIG_MTTCAN_IVC=m \
 "
 
-RESIN_CONFIGS[visos] = " \
-    CONFIG_PCI_TEGRA=y \
-    CONFIG_BLUEDROID_PM=y \
+
+BALENA_CONFIGS_append = " cfginput"
+BALENA_CONFIGS[cfginput] = " \
+		CONFIG_INPUT_LEDS=m \
+		CONFIG_FF_MEMLESS=m \
+		CONFIG_INPUT_MOUSEDEV=m \
+		CONFIG_INPUT_JOYDEV=m \
+		CONFIG_JOYSTICK_XPAD=m \
+		CONFIG_INPUT_KEYCHORD=m \
 "
 
+# Switch nfs and backlight drivers as modules
+# to shrink down the kernel image size starting
+# with BalenaOS 2.65.0
+BALENA_CONFIGS_append = " nfsfs backlight "
+BALENA_CONFIGS[nfsfs] = " \
+    CONFIG_NFS_FS=m \
+    CONFIG_NFS_V2=m \
+    CONFIG_NFS_V3=m \
+"
+
+BALENA_CONFIGS[backlight] = " \
+    CONFIG_BACKLIGHT_PWM=m \
+    CONFIG_BACKLIGHT_LP855X=m \
+    CONFIG_BACKLIGHT_CLASS_DEVICE=m \
+"
+
+L4TVER=" l4tver=${L4T_VERSION}"
 KERNEL_ROOTSPEC_jetson-tx2 = " \${resin_kernel_root} ro rootwait "
 
 # Since 32.1 on tx2, after kernel is loaded sd card becomes mmcblk2 opposed
 # to u-boot where it was 1. This is another cause of failure of
 # previous flasher images.  Use label to distinguish rootfs
-KERNEL_ROOTSPEC_FLASHER_jetson-tx2 = " root=LABEL=flash-rootA ro rootwait flasher"
+KERNEL_ROOTSPEC_FLASHER_jetson-tx2 = " root=LABEL=flash-rootA ro rootwait flasher "
+KERNEL_ROOTSPEC_append="${L4TVER}"
+KERNEL_ROOTSPEC_FLASHER_append="${L4TVER}"
 
 generate_extlinux_conf() {
     install -d ${D}/${KERNEL_IMAGEDEST}/extlinux
@@ -122,6 +150,7 @@ MENU TITLE Boot Options
 LABEL primary
       MENU LABEL primary ${KERNEL_IMAGETYPE}
       LINUX /${KERNEL_IMAGETYPE}
+      FDT default
       APPEND \${cbootargs} ${kernelRootspec} \${os_cmdline} sdhci_tegra.en_boot_part_access=1
 EOF
     kernelRootspec="${KERNEL_ROOTSPEC_FLASHER}" ; cat >${D}/${KERNEL_IMAGEDEST}/extlinux/extlinux.conf_flasher << EOF
@@ -144,8 +173,5 @@ do_deploy_append(){
     install -m 0600 "${D}/boot/extlinux/extlinux.conf_flasher" "${DEPLOYDIR}/boot/"
 }
 
-FILES_${KERNEL_PACKAGE_NAME}-image_append = "/boot/extlinux/extlinux.conf /boot/extlinux/extlinux.conf_flasher"
 
-do_deploy_append_apollo-tx2() {
-    cp ${WORKDIR}/tegra186-quill-p3310-1000-c03-00-base_apollo.dtb "${DEPLOYDIR}"
-}
+FILES_${KERNEL_PACKAGE_NAME}-image_append = "/boot/extlinux/extlinux.conf /boot/extlinux/extlinux.conf_flasher"

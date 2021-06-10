@@ -15,7 +15,7 @@ module.exports =
 	slug: 'apollo-tx2'
 	name: 'Apollo TX2'
 	arch: 'aarch64'
-	state: 'new'
+	state: 'released'
 	private: true
 
 	stateInstructions:
@@ -29,18 +29,18 @@ module.exports =
 	].concat(postProvisioningInstructions)
 
 	gettingStartedLink:
-		windows: 'https://docs.resin.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
-		osx: 'https://docs.resin.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
-		linux: 'https://docs.resin.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
+		windows: 'https://docs.balena.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
+		osx: 'https://docs.balena.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
+		linux: 'https://docs.balena.io/jetson-tx2/nodejs/getting-started/#adding-your-first-device'
 
 	supportsBlink: false
 
 	yocto:
 		machine: 'apollo-tx2'
-		image: 'resin-image-flasher'
-		fstype: 'resinos-img'
-		version: 'yocto-warrior'
-		deployArtifact: 'resin-image-flasher-apollo-tx2.resinos-img'
+		image: 'balena-image-flasher'
+		fstype: 'balenaos-img'
+		version: 'yocto-dunfell'
+		deployArtifact: 'balena-image-flasher-apollo-tx2.balenaos-img'
 		compressed: true
 
 	options: [ networkOptions.group ]

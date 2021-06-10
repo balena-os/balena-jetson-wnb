@@ -1,0 +1,484 @@
+From ef0b3b9786f898774f77e207cf8958e74059607d Mon Sep 17 00:00:00 2001
+From: Alexandru Costache <alexandru@balena.io>
+Date: Mon, 7 Jun 2021 15:41:43 +0200
+Subject: [PATCH] linux-tegra: Apply custom DTS changes for this device type
+
+This changes are provided by the customer, who validated
+them on L4T 32.5.1
+
+Upstream-status: Inappropriate [backbport]
+Signed-off-by: Alexandru Costache <alexandru@balena.io>
+---
+ ...6-quill-p3310-1000-a00-plugin-manager.dtsi |  44 +++----
+ .../tegra186-quill-p3310-1000-a00-00-base.dts | 111 +++++++++++++++---
+ .../tegra186-quill-p3310-1000-c03-00-base.dts |  84 ++++++++++++-
+ 3 files changed, 197 insertions(+), 42 deletions(-)
+
+diff --git a/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi b/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
+index 99e836c8395e..a23b5b8baa28 100644
+--- a/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
++++ b/nvidia/platform/t18x/common/kernel-dts/t18x-common-plugin-manager/tegra186-quill-p3310-1000-a00-plugin-manager.dtsi
+@@ -85,26 +85,26 @@
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+-					ports {
++				/* 	ports {
+ 						usb3-0 {
+ 							status = "okay";
+ 						};
+-					};
++					}; */
+ 				};
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					e3325-usb3-std-A-HS {
++					/* e3325-usb3-std-A-HS {
+ 						status = "okay";
+ 					};
+ 					e3325-usb3-std-A-SS {
+ 						status = "okay";
+-					};
++					}; */
+ 				};
+ #endif
+ 			};
+ 			override@1 {
+-				target = <&{/xhci@3530000}>;
++				/* target = <&{/xhci@3530000}>;
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				_overlay_ {
+ 					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+@@ -123,13 +123,13 @@
+ 							<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>;
+ 					phy-names = "utmi-0", "utmi-1", "usb3-1", "utmi-2", "usb3-0";
+ 				};
+-#endif
++#endif */
+ 			};
+ 			override@2 {
+ 				target = <&tegra_main_gpio>;
+ 				_overlay_ {
+ 					e3325_sdio_rst {
+-						status = "okay";
++						status = "disabled";
+ 					};
+ 					e3325_lane0_mux {
+ 						status = "okay";
+@@ -140,10 +140,10 @@
+ 				target = <&tegra_pcie>;
+ 				_overlay_ {
+ 					pci@1,0 {
+-						nvidia,num-lanes = <2>;
++						nvidia,num-lanes = <4>;
+ 					};
+ 					pci@2,0 {
+-						nvidia,num-lanes = <1>;
++						nvidia,num-lanes = <0>;
+ 					};
+ 					pci@3,0 {
+ 						nvidia,num-lanes = <1>;
+@@ -206,7 +206,7 @@
+ 		fragment-500-xusb-config {
+ 			ids = ">=3310-1000-500";
+ 			override@0 {
+-				target = <&{/xhci@3530000}>;
++				/* target = <&{/xhci@3530000}>;
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				_overlay_ {
+ 					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+@@ -223,31 +223,31 @@
+ 						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(0)>;
+ 					phy-names = "utmi-0", "utmi-1", "utmi-2", "usb3-0";
+ 				};
+-#endif
++#endif */
+ 			};
+ 			override@1 {
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+ 					ports {
+-						usb3-1 {
++						/* usb3-1 {
+ 							status = "disabled";
+ 						};
+ 						usb3-0 {
+ 							nvidia,usb2-companion = <1>;
+ 							status = "okay";
+-						};
++						}; */
+ 					};
+ 				};
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					usb3-std-A-port2 {
++					/* usb3-std-A-port2 {
+ 						nvidia,lanes = "usb3-0";
+ 					};
+ 					e3325-usb3-std-A-HS {
+ 						status = "okay";
+-					};
++					}; */
+ 				};
+ #endif
+ 			};
+@@ -257,7 +257,7 @@
+ 			ids = ">=3310-1000-500";
+ 			odm-data = "enable-pcie-on-uphy-lane0";
+ 			override@0 {
+-				target = <&{/xhci@3530000}>;
++				/* target = <&{/xhci@3530000}>;
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				_overlay_ {
+ 					phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+@@ -272,24 +272,24 @@
+ 						<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(2)>;
+ 					phy-names = "utmi-0", "utmi-1", "utmi-2";
+ 				};
+-#endif
++#endif */
+ 			};
+ 			override@1 {
+ #if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+ 				target = <&xusb_padctl>;
+ 				_overlay_ {
+-					ports {
++				/*	ports {
+ 						usb3-0 {
+ 							status = "disabled";
+ 						};
+-					};
+-				};
++					}; */
++				}; 
+ #else
+ 				target = <&tegra_xusb_padctl_pinmux_default>;
+ 				_overlay_ {
+-					usb3-std-A-port2 {
++					/* usb3-std-A-port2 {
+ 						status = "disabled";
+-					};
++					}; */
+ 				};
+ #endif
+ 			};
+diff --git a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
+index b8fad4c0875a..d3beb3c5ad18 100644
+--- a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
++++ b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
+@@ -121,17 +121,16 @@
+ 		status = "okay";
+ 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+-			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
+-			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-1}>;
+-		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-1";
++			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>;
++		phy-names = "usb2-0", "usb2-1", "usb2-2";
+ 	};
+ #else
+ 	xhci@3530000 {
+ 		status = "okay";
+ 		phys = <&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(0)>,
+ 			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_UTMI_P(1)>,
+-			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(1)>;
+-		phy-names = "utmi-0", "utmi-1", "usb3-1";
++			<&tegra_xusb_padctl TEGRA_PADCTL_PHY_USB3_P(2)>;
++		phy-names = "utmi-0", "utmi-1", "utmi-2";
+ 		nvidia,boost_cpu_freq = <800>;
+ 	};
+ #endif
+@@ -168,7 +167,7 @@
+ 			};
+ 			usb3 {
+ 				lanes {
+-					usb3-0 {
++					/* usb3-0 {
+ 						nvidia,function = "xusb";
+ 						status = "okay";
+ 					};
+@@ -179,7 +178,7 @@
+ 					usb3-2 {
+ 						nvidia,function = "xusb";
+ 						status = "okay";
+-					};
++					}; */
+ 				};
+ 			};
+ 		};
+@@ -200,15 +199,16 @@
+ 			usb2-2 {
+ 				status = "okay";
+ 				mode = "host";
+-				vbus-supply = <&vdd_usb2_5v>;
++				vbus-supply = <&battery_reg>;
++				nvidia,oc-pin = <1>;
+ 			};
+-			usb3-0 {
++			/* usb3-0 {
+ 				nvidia,usb2-companion = <2>;
+ 			};
+ 			usb3-1 {
+ 				nvidia,usb2-companion = <1>;
+ 				status = "okay";
+-			};
++			}; */
+ 		};
+ 	};
+ #endif
+@@ -228,18 +228,27 @@
+ 		tegra_xusb_padctl_pinmux_default: pinmux {
+ 			/* Quill does not support usb3-micro AB */
+ 			usb2-micro-AB {
++				status = "okay";
+ 				nvidia,lanes = "otg-0";
+ 				nvidia,function = "xusb";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_OTG_CAP>;
+ 				nvidia,oc-pin = <0>;
+ 			};
+ 			usb2-std-A-port2 {
++				status = "okay";
+ 				nvidia,lanes = "otg-1";
+ 				nvidia,function = "xusb";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				nvidia,oc-pin = <1>;
+ 			};
+-			usb3-std-A-port2 {
++			usb3-std-A-port3 {
++				status = "okay";
++				nvidia,lanes = "otg-2";
++				nvidia,function = "xusb";
++				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
++				nvidia,oc-pin = <1>;
++			};
++			/* usb3-std-A-port2 {
+ 				nvidia,lanes = "usb3-1";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				nvidia,oc-pin = <1>;
+@@ -256,17 +265,17 @@
+ 				nvidia,lanes = "usb3-0";
+ 				nvidia,port-cap = <TEGRA_PADCTL_PORT_HOST_ONLY>;
+ 				status = "disabled";
+-			};
++			}; */
+ 		};
+ 	};
+ 	pcie-controller@10003000 {
+ 		status = "okay";
+ 		pci@1,0 {
+-			nvidia,num-lanes = <2>;
++			nvidia,num-lanes = <4>;
+ 			status = "okay";
+ 		};
+ 		pci@2,0 {
+-			nvidia,num-lanes = <1>;
++			nvidia,num-lanes = <0>;
+ 			status = "disabled";
+ 		};
+ 		pci@3,0 {
+@@ -285,6 +294,80 @@
+ 		clock-frequency = <400000>;
+ 	};
+ 
++	/delete-node/ spi@c260000;
++
++	spi1: spi@c260000 {
++		status="okay";
++		compatible = "nvidia,tegra186-spi";
++		reg = <0x0 0x0c260000 0x0 0x10000>;
++		interrupts = <0 37 0x04>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		iommus = <&smmu TEGRA_SID_GPCDMA_0>;
++		dmas = <&gpcdma 16>, <&gpcdma 16>;
++		dma-names = "rx", "tx";
++		nvidia,clk-parents = "pll_p", "osc";
++		spi-max-frequency = <25000000>;
++		clocks = <&tegra_car TEGRA186_CLK_SPI2>,
++			<&tegra_car TEGRA186_CLK_PLLP_OUT0>,
++			<&tegra_car TEGRA186_CLK_OSC>;
++		clock-names = "spi", "pll_p", "osc";
++		resets = <&tegra_car TEGRA186_RESET_SPI2>;
++		reset-names = "spi";
++			
++		spi1_0 {
++			status = "okay";
++			#address-cells = <0x1>;
++			#size-cells = <0x0>;
++			compatible = "spidev";
++			reg = <0>;
++			spi-max-frequency = <25000000>;
++			nvidia,enable-hw-based-cs;
++			nvidia,cs-setup-clk-count = <0x1e>;
++			nvidia,cs-hold-clk-count = <0x1e>;
++			nvidia,rx-clk-tap-delay = <0x1f>;
++			nvidia,tx-clk-tap-delay = <0x0>;			
++
++			irq-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(AA, 2) 0x01>;
++			interrupt-parent = <&tegra_aon_gpio>;
++			interrupts = <TEGRA_AON_GPIO(AA, 2) 0x01>; // GPIO_PAA2
++		};
++	};
++
++	spi@3230000 {			//new(fd)
++		status="okay";
++		spi2_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi2_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
++	spi@3240000 {			//new(fd)
++		status="okay";
++		spi3_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi3_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
++
++
+ 	cpufreq@e070000 {
+ 		cpu_emc_map =
+ 			< 499200  204000>,
+diff --git a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
+index c276c56c4e22..2687079b675d 100644
+--- a/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
++++ b/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-c03-00-base.dts
+@@ -142,7 +142,7 @@
+ 	pcie-controller@10003000 {
+ 		pci@1,0 {
+ 			nvidia,num-lanes = <4>;
+-			nvidia,disable-clock-request;
++			//nvidia,disable-clock-request;
+ 		};
+ 		pci@2,0 {
+ 			nvidia,num-lanes = <0>;
+@@ -155,21 +155,20 @@
+         xhci@3530000 {
+ 		phys = <&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-0}>,
+ 			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-1}>,
+-			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>,
+-			<&{/xusb_padctl@3520000/pads/usb3/lanes/usb3-0}>;
+-		phy-names = "usb2-0", "usb2-1", "usb2-2", "usb3-0";
++			<&{/xusb_padctl@3520000/pads/usb2/lanes/usb2-2}>;
++		phy-names = "usb2-0", "usb2-1", "usb2-2";
+ 		nvidia,boost_cpu_freq = <1200>;
+ 	};
+ 
+ 	xusb_padctl@3520000 {
+ 		ports {
+-			usb3-1 {
++			/* usb3-1 {
+ 				status = "disabled";
+ 			};
+ 			usb3-0 {
+ 				nvidia,usb2-companion = <1>;
+ 				status = "okay";
+-			};
++			}; */
+ 		};
+ 	};
+ 
+@@ -177,6 +176,79 @@
+ 		bluedroid_pm,reset-gpio = <&tegra_main_gpio TEGRA_MAIN_GPIO(H, 5) 0>;
+         };
+ 
++	/delete-node/ spi@c260000;
++
++	spi1: spi@c260000 {
++		status="okay";
++		compatible = "nvidia,tegra186-spi";
++		reg = <0x0 0x0c260000 0x0 0x10000>;
++		interrupts = <0 37 0x04>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		iommus = <&smmu TEGRA_SID_GPCDMA_0>;
++		dmas = <&gpcdma 16>, <&gpcdma 16>;
++		dma-names = "rx", "tx";
++		nvidia,clk-parents = "pll_p", "osc";
++		spi-max-frequency = <25000000>;
++		clocks = <&tegra_car TEGRA186_CLK_SPI2>,
++			<&tegra_car TEGRA186_CLK_PLLP_OUT0>,
++			<&tegra_car TEGRA186_CLK_OSC>;
++		clock-names = "spi", "pll_p", "osc";
++		resets = <&tegra_car TEGRA186_RESET_SPI2>;
++		reset-names = "spi";
++			
++		spi1_0 {
++			status = "okay";
++			#address-cells = <0x1>;
++			#size-cells = <0x0>;
++			compatible = "spidev";
++			reg = <0>;
++			spi-max-frequency = <25000000>;
++			nvidia,enable-hw-based-cs;
++			nvidia,cs-setup-clk-count = <0x1e>;
++			nvidia,cs-hold-clk-count = <0x1e>;
++			nvidia,rx-clk-tap-delay = <0x1f>;
++			nvidia,tx-clk-tap-delay = <0x0>;			
++
++			irq-gpio = <&tegra_aon_gpio TEGRA_AON_GPIO(AA, 2) 0x01>;
++			interrupt-parent = <&tegra_aon_gpio>;
++			interrupts = <TEGRA_AON_GPIO(AA, 2) 0x01>; // GPIO_PAA2
++		};
++	};
++
++	spi@3230000 {			//new(fd)
++		status="okay";
++		spi2_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi2_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
++
++	spi@3240000 {			//new(fd)
++		status="okay";
++		spi3_0 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <0>;
++			spi-max-frequency = <25000000>;			
++		};
++		spi3_1 {
++			compatible = "spidev";
++			status = "okay";
++			reg = <1>;
++			spi-max-frequency = <25000000>;			
++		};
++	};
++
+ 	bpmp_i2c {
+ 		spmic@3c {
+ 			pinmux@0 {
+-- 
+2.17.1
+
