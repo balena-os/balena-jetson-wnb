@@ -1,0 +1,8 @@
+[connection]
+id=dummy0
+uuid=25a212dd-94f1-4379-9adc-e71057dcbcd5
+type=dummy
+interface-name=dummy0
+autoconnect=true
+master=lanbr0
+slave-type=bridge
