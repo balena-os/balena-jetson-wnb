@@ -8,6 +8,9 @@ do_rootfs_balenaos-img_jetson-tx2[depends] += " tegra186-flash-dry:do_deploy \
 
 BALENA_BOOT_PARTITION_FILES_jetson-tx2 = " \
     boot/extlinux.conf:/extlinux/extlinux.conf \
+    system-connections/bridge-lanbr0:/system-connections/bridge-lanbr0 \
+    system-connections/bridge-slave-dummy:/system-connections/bridge-slave-dummy \
+    system-connections/bridge-slave-enp1s0:/system-connections/bridge-slave-enp1s0 \
 "
 
 # The space resinOS takes will amount to 1GiB

@@ -1,0 +1,11 @@
+[connection]
+id=bridge-slave-enp1s0
+uuid=632aafc4-5b10-47ee-acce-c18a4b15fe79
+type=ethernet
+interface-name=enp1s0
+autoconnect=yes
+master=lanbr0
+slave-type=bridge
+
+[802-3-ethernet]
+auto-negotiate=true
